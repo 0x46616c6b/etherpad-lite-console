@@ -1,0 +1,19 @@
+{
+    "name": "0x46616c6b/etherpad-lite-console",
+    "description": "A thin console toolkit for maintain an etherpad lite instance",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "louis",
+            "email": "louis@systemli.org"
+        }
+    ],
+    "require": {
+        "symfony/console": "2.3",
+        "0x46616c6b/etherpad-lite-client": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    }
+}
