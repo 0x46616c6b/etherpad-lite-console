@@ -20,7 +20,7 @@ class DeletePadCommand extends Command
                 array(
                     new InputArgument('padId', InputArgument::REQUIRED, 'The ID of the Pad'),
                     new InputOption('apikey', null, InputOption::VALUE_REQUIRED, 'The API Key of your Etherpad Instance'),
-                    new InputOption('host', null, InputOption::VALUE_OPTIONAL, '(optional) The HTTP Address of your Etherpad Instance, default: http://localhost:9000')
+                    new InputOption('host', null, InputOption::VALUE_OPTIONAL, '(optional) The HTTP Address of your Etherpad Instance', 'http://localhost:9001')
                 )
             )
             ->setHelp(<<<EOT
