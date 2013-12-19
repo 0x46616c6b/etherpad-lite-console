@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "symfony/console": "2.3",
+        "symfony/console": "2.4",
         "0x46616c6b/etherpad-lite-client": "dev-master",
         "predis/predis": "0.8.*@dev"
     },
