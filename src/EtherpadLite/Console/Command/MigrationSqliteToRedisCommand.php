@@ -18,8 +18,8 @@ class MigrationSqliteToRedisCommand extends Command
             ->setDefinition(
                 array(
                     new InputArgument('file', InputArgument::REQUIRED, 'The sqlite file'),
-                    new InputOption('host',     'H', InputOption::VALUE_OPTIONAL, 'Redis hostname', 'localhost'),
-                    new InputOption('port',     'p', InputOption::VALUE_OPTIONAL, 'Redis port', 6379),
+                    new InputOption('host', 'H', InputOption::VALUE_OPTIONAL, 'Redis hostname', 'localhost'),
+                    new InputOption('port', 'p', InputOption::VALUE_OPTIONAL, 'Redis port', 6379),
                 )
             )
         ;
@@ -27,11 +27,13 @@ class MigrationSqliteToRedisCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!is_file($input->getArgument('file'))) {
-            throw new \Exception(sprintf('File %s not found!', $input->getOption('file')));
+        $file = $input->getArgument('file');
+
+        if (!is_file($file)) {
+            throw new \Exception(sprintf('File %s not found!', $file));
         }
 
-        $db = new \PDO(sprintf('sqlite:%s', $input->getOption('file')));
+        $db = new \PDO(sprintf('sqlite:%s', $file));
         $redis = new Client(array(
             'scheme' => 'tcp',
             'host'   => $input->getOption('host'),
