@@ -7,7 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class MigrationSqliteToRedisCommand extends Command
 {
@@ -25,7 +25,7 @@ class MigrationSqliteToRedisCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, ConsoleOutput $output)
     {
         $file = $input->getArgument('file');
 
@@ -40,8 +40,21 @@ class MigrationSqliteToRedisCommand extends Command
             'port'   => $input->getOption('port'),
         ));
 
+        $c = 0;
+
         foreach ($db->query("SELECT * FROM store") as $row) {
+            $parts = explode(':', $row['key']);
+
+            $key = sprintf('ueberDB:keys:%s', $parts[0]);
+            $value = sprintf('%s:%s', $parts[0], $parts[1]);
+            $redis->sadd($key, $value);
+
             $redis->set($row['key'], $row['value']);
+            $c++;
+        }
+
+        if ($output->isVerbose()) {
+            $output->writeln(sprintf('%s values imported', $c));
         }
     }
 }
