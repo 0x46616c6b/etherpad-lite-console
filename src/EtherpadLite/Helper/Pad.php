@@ -22,7 +22,12 @@ class Pad
         if ($response->getCode() == Response::CODE_OK) {
             return 'The pad was deleted successfully!';
         } else {
-            throw new \Exception('An error occurred!' . "\n" . $response->getMessage());
+            throw new \Exception(sprintf(
+                "An error occurred while delete pad '%s'!\nCode: %s - %s",
+                $padId,
+                $response->getCode(),
+                $response->getMessage()
+            ));
         }
     }
 
@@ -40,7 +45,11 @@ class Pad
         if ($response->getCode() == Response::CODE_OK) {
             return $response->getData()['padIDs'];
         } else {
-            throw new \Exception('An error occurred!' . "\n" . $response->getMessage());
+            throw new \Exception(sprintf(
+                "An error occurred while fetching all pads!\nCode: %s - %s",
+                $response->getCode(),
+                $response->getMessage()
+            ));
         }
     }
 
@@ -59,7 +68,12 @@ class Pad
         if ($response->getCode() == Response::CODE_OK) {
             return $response->getMessage() * 1000;
         } else {
-            throw new \Exception('An error occurred!' . "\n" . $response->getMessage());
+            throw new \Exception(sprintf(
+                "An error occurred while fetching pad information for '%s'!\nCode: %s - %s",
+                $padId,
+                $response->getCode(),
+                $response->getMessage()
+            ));
         }
     }
 }
