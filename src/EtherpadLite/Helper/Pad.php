@@ -38,7 +38,6 @@ class Pad
         $response = $client->listAllPads();
 
         if ($response->getCode() == Response::CODE_OK) {
-            print_r($response->getResponse());
             return $response->getData()['padIDs'];
         } else {
             throw new \Exception('An error occurred!' . "\n" . $response->getMessage());
