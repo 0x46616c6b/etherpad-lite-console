@@ -13,7 +13,8 @@ $app = new Application('Etherpad Lite Console', '0.1');
 $app->addCommands(
     array(
         new EtherpadLite\Console\Command\DeletePadCommand(),
-        new EtherpadLite\Console\Command\DeleteOldPadsCommand()
+        new EtherpadLite\Console\Command\DeleteOldPadsCommand(),
+        new EtherpadLite\Console\Command\MigrationSqliteToRedisCommand()
     )
 );
 $app->run();
