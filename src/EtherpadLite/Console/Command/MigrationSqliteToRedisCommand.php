@@ -17,7 +17,7 @@ class MigrationSqliteToRedisCommand extends Command
             ->setDescription('Migrate a sqlite db to redis')
             ->setDefinition(
                 array(
-                    new InputArgument('file', InputArgument::REQUIRED, 'The API Key of your Etherpad Instance'),
+                    new InputArgument('file', InputArgument::REQUIRED, 'The sqlite file'),
                     new InputOption('host',     'H', InputOption::VALUE_OPTIONAL, 'Redis hostname', 'localhost'),
                     new InputOption('port',     'p', InputOption::VALUE_OPTIONAL, 'Redis port', 6379),
                     new InputOption('database', 'd', InputOption::VALUE_OPTIONAL, 'Redis database', '0')
