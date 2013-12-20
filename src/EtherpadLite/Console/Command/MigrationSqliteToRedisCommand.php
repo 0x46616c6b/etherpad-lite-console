@@ -14,7 +14,7 @@ class MigrationSqliteToRedisCommand extends Command
     protected function configure()
     {
         $this->setName('redis:import:sqlite')
-            ->setDescription('Imports a sqlite database to redis')
+            ->setDescription('Import a sqlite database to redis')
             ->setDefinition(
                 array(
                     new InputArgument('file', InputArgument::REQUIRED, 'The sqlite file'),
