@@ -1,6 +1,6 @@
 # Etherpad Lite Console (PHP)
 
-**A thin console toolkit for maintain to etherpad lite instance**
+**A thin console toolkit to maintain an etherpad lite instance**
 
 ## Installation
 
