@@ -1,6 +1,6 @@
 {
     "name": "0x46616c6b/etherpad-lite-console",
-    "description": "A thin console toolkit for maintain an etherpad lite instance",
+    "description": "A thin console toolkit to maintain an etherpad lite instance",
     "license": "GPL-3.0",
     "authors": [
         {
