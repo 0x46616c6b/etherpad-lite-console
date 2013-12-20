@@ -7,14 +7,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrationSqliteToRedisCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('sqlite-to-redis')
-            ->setDescription('Migrate a sqlite db to redis')
+        $this->setName('redis:import:sqlite')
+            ->setDescription('Imports a sqlite database to redis')
             ->setDefinition(
                 array(
                     new InputArgument('file', InputArgument::REQUIRED, 'The sqlite file'),
@@ -25,7 +25,7 @@ class MigrationSqliteToRedisCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, ConsoleOutput $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $file = $input->getArgument('file');
 

@@ -15,18 +15,14 @@ class DeletePadCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('delete-pad')
-            ->setDescription('Deletes a Pad by PadId')
+        $this->setName('pad:delete')
+            ->setDescription('Delete a pad')
             ->setDefinition(
                 array(
                     new InputArgument('padId', InputArgument::REQUIRED, 'The ID of the Pad'),
                     new InputOption('apikey', null, InputOption::VALUE_REQUIRED, 'The API Key of your Etherpad Instance'),
                     new InputOption('host', null, InputOption::VALUE_OPTIONAL, 'The HTTP Address of your Etherpad Instance', 'http://localhost:9001')
                 )
-            )
-            ->setHelp(<<<EOT
-The <info>delete-pad</info> command deletes a pad by the given padId
-EOT
             );
     }
 

@@ -14,8 +14,8 @@ class DeleteOldPadsCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('delete-old-pads')
-            ->setDescription('Deletes Pads which older then x days')
+        $this->setName('pad:purge')
+            ->setDescription('Purge pads which older then x days')
             ->setDefinition(
                 array(
                     new InputOption('apikey', null, InputOption::VALUE_REQUIRED, 'The API Key of your Etherpad Instance'),
