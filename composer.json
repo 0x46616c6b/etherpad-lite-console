@@ -9,6 +9,8 @@
         }
     ],
     "require": {
+        "php": ">=5.3.3",
+        "ext-sqlite3": "*",
         "symfony/console": "2.4",
         "0x46616c6b/etherpad-lite-client": "dev-master",
         "predis/predis": "0.8.*@dev"
