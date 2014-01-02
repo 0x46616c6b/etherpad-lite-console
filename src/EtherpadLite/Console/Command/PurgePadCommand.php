@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DeleteOldPadsCommand extends Command
+class PurgePadCommand extends Command
 {
     protected function configure()
     {
