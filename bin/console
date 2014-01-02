@@ -9,7 +9,7 @@ set_time_limit(0);
 
 use Symfony\Component\Console\Application;
 
-$app = new Application('Etherpad Lite Console', '0.1.0');
+$app = new Application('Etherpad Lite Console', '0.1.1');
 $app->addCommands(
     array(
         new EtherpadLite\Console\Command\DeletePadCommand(),
