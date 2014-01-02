@@ -17,17 +17,16 @@ class Pad
     public static function deletePad($padId, $apiKey, $host = 'http://localhost:9001')
     {
         $client = new Client($apiKey, $host);
-        $response = $client->deletePad($padId);
+        try {
+           $response = $client->deletePad($padId);
+        } catch (\Exception $e) {
+            return false;
+        }
 
         if ($response->getCode() == Response::CODE_OK) {
-            return 'The pad was deleted successfully!';
+            return true;
         } else {
-            throw new \Exception(sprintf(
-                "An error occurred while delete pad '%s'!\nCode: %s - %s",
-                $padId,
-                $response->getCode(),
-                $response->getMessage()
-            ));
+            return false;
         }
     }
 
@@ -40,16 +39,17 @@ class Pad
     public static function getAllPadIds($apiKey, $host = 'http://localhost:9001')
     {
         $client = new Client($apiKey, $host);
-        $response = $client->listAllPads();
+
+        try {
+            $response = $client->listAllPads();
+        } catch (\Exception $e) {
+            return false;
+        }
 
         if ($response->getCode() == Response::CODE_OK) {
             return $response->getData()['padIDs'];
         } else {
-            throw new \Exception(sprintf(
-                "An error occurred while fetching all pads!\nCode: %s - %s",
-                $response->getCode(),
-                $response->getMessage()
-            ));
+            return false;
         }
     }
 
@@ -57,23 +57,21 @@ class Pad
      * @param $padId
      * @param $apiKey
      * @param string $host
-     * @return int
-     * @throws \Exception
+     * @return int|false
      */
     public static function getLastEdited($padId, $apiKey, $host = 'http://localhost:9001')
     {
         $client = new Client($apiKey, $host);
-        $response = $client->getLastEdited($padId);
+        try {
+            $response = $client->getLastEdited($padId);
+        } catch (\Exception $e) {
+            return false;
+        }
 
         if ($response->getCode() == Response::CODE_OK) {
-            return $response->getMessage() * 1000;
+            return $response->getData()['lastEdited'] / 1000;
         } else {
-            throw new \Exception(sprintf(
-                "An error occurred while fetching pad information for '%s'!\nCode: %s - %s",
-                $padId,
-                $response->getCode(),
-                $response->getMessage()
-            ));
+            return false;
         }
     }
 }

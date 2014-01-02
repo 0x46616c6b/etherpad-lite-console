@@ -28,12 +28,14 @@ class DeletePadCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(
-            Pad::deletePad(
-                $input->getArgument('padId'),
-                $input->getOption('apikey'),
-                $input->getOption('host')
-            )
-        );
+        if (Pad::deletePad(
+            $input->getArgument('padId'),
+            $input->getOption('apikey'),
+            $input->getOption('host')
+        )) {
+            $output->writeln('Pad sucessfully deleted!');
+        } else {
+            $output->writeln('Pad could not deleted!');
+        }
     }
 }
