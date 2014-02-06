@@ -12,7 +12,7 @@ class Pad
      * @param $apiKey
      * @param string $host
      * @throws \Exception
-     * @return string
+     * @return boolean
      */
     public static function deletePad($padId, $apiKey, $host = 'http://localhost:9001')
     {

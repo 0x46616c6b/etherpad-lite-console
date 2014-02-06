@@ -2,9 +2,7 @@
 
 namespace EtherpadLite\Console\Command;
 
-use EtherpadLite\Client;
 use EtherpadLite\Helper\Pad;
-use EtherpadLite\Response;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
