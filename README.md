@@ -1,5 +1,7 @@
 # Etherpad Lite Console (PHP)
 
+[![Latest Stable Version](https://poser.pugx.org/0x46616c6b/etherpad-lite-console/v/stable.png)](https://packagist.org/packages/0x46616c6b/etherpad-lite-console) [![License](https://poser.pugx.org/0x46616c6b/etherpad-lite-console/license.png)](https://packagist.org/packages/0x46616c6b/etherpad-lite-console) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/0x46616c6b/etherpad-lite-console/badges/quality-score.png?s=4bd527762446d5ea536787bf5ab611488d1dd7d6)](https://scrutinizer-ci.com/g/0x46616c6b/etherpad-lite-console/)
+
 **A thin console toolkit to maintain an etherpad lite instance**
 
 ## Installation
