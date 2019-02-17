@@ -19,11 +19,13 @@ class PurgePadCommand extends Command
     protected function configure()
     {
         $this->setName('pad:purge')
-            ->setDescription('Purge pads which older then x days')
+            ->setDescription('Purge pads older than x days')
             ->setDefinition(
                 array(
                     new InputOption('apikey', null, InputOption::VALUE_REQUIRED, 'The API Key of your Etherpad Instance'),
                     new InputOption('days', null, InputOption::VALUE_OPTIONAL, 'Days after Pads will deleted', '30'),
+                    new InputOption('suffix', null, InputOption::VALUE_OPTIONAL, 'Only delete pads with this suffix', null),
+                    new InputOption('ignore-suffix', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Ignore pads with this suffix', []),
                     new InputOption('host', null, InputOption::VALUE_OPTIONAL, 'The HTTP Address of your Etherpad Instance', 'http://localhost:9001'),
                     new InputOption('dry-run', 'd', InputOption::VALUE_NONE, '')
                 )
@@ -34,6 +36,12 @@ class PurgePadCommand extends Command
     {
         $this->setThreshold($input->getOption('days'));
 
+        $suffix = $input->getOption('suffix');
+        $ignoreSuffixes = $input->getOption('ignore-suffix');
+
+        $suffixRegex = sprintf('/%s$/', $suffix);
+        $ignoreSuffixesRegex = sprintf('/(%s)$/', join('|', $ignoreSuffixes));
+
         if ($input->getOption('dry-run')) {
             $output->writeln('<info>This is a dry-run run, no pad will deleted.</info>');
         }
@@ -42,6 +50,16 @@ class PurgePadCommand extends Command
             $output->writeln(
                 sprintf('<info>INFO:</info> Pads before %s will be deleted', $this->threshold->format($this->dateFormat))
             );
+            if (null !== $suffix) {
+                $output->writeln(
+                    sprintf('<info>INFO:</info> Only pads ending with suffix \'%s\' will be deleted', $suffix)
+                );
+            }
+            if (!empty($ignoreSuffixes)) {
+                $output->writeln(
+                    sprintf('<info>INFO:</info> Pads ending with suffixes \'%s\' will be ignored', join('\', \'', $ignoreSuffixes))
+                );
+            }
         }
 
         $padIds = $this->getAllPads($input->getOption('apikey'), $input->getOption('host'));
@@ -58,6 +76,23 @@ class PurgePadCommand extends Command
         }
 
         foreach ($padIds as $padId) {
+            if (null !== $suffix && !preg_match($suffixRegex, $padId)) {
+                if ($output->isDebug()){
+                    $output->writeln(
+                        sprintf('<info>DEBUG:</info> "%s" will be ignored as it doesn\'t match suffix', $padId)
+                    );
+                }
+                continue;
+            }
+            if (!empty($ignoreSuffixes) && preg_match($ignoreSuffixesRegex, $padId)) {
+                if ($output->isDebug()){
+                    $output->writeln(
+                        sprintf('<info>DEBUG:</info> "%s" will be ignored as it matches an ignore-suffix', $padId)
+                    );
+                }
+                continue;
+            }
+
             $lastEdited = Pad::getLastEdited(
                 $padId,
                 $input->getOption('apikey'),
@@ -102,6 +137,8 @@ class PurgePadCommand extends Command
 
     /**
      * @param $days
+     *
+     * @throws \Exception
      */
     private function setThreshold($days)
     {
