@@ -43,8 +43,19 @@ Sample Output
 
 * Delete a pad
 * Purge old pads (*avoid massive data retention*)
+  * White- or blacklist pads by suffixes to their pad IDs
 * Migration
   * From SQLite to Redis
+
+## Purging pads by suffixes
+
+Suffixes to pad IDs can be used for variable expiry pad times. E.g. to
+purge pads with suffix '-1day' after 1 day, with '-1year' after 365 days
+and all other pads after 60 days, do the following:
+
+    ./bin/console pad:purge --days=1 --suffix=-1day
+    ./bin/console pad:purge --days=365 --suffix=-1year
+    ./bin/console pad:purge --days=60 --ignore-suffix=-1day --ignore-suffix=-1year
 
 ## Implementation
 
