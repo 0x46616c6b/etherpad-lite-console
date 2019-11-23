@@ -2,7 +2,10 @@
 
 namespace EtherpadLite\Console\Command;
 
+use DateInterval;
+use DateTime;
 use EtherpadLite\Helper\Pad;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,10 +13,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PurgePadCommand extends Command
 {
+    /** @var string */
     protected $dateFormat = 'Y-m-d H:i:s';
+    /** @var null|DateTime */
     protected $threshold = null;
+    /** @var int */
     protected $countPads = 0;
+    /** @var int */
     protected $countPadsFailed = 0;
+    /** @var int */
     protected $countPadsDeleted = 0;
 
     protected function configure()
@@ -27,7 +35,7 @@ class PurgePadCommand extends Command
                     new InputOption('suffix', null, InputOption::VALUE_OPTIONAL, 'Only delete pads with this suffix', null),
                     new InputOption('ignore-suffix', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Ignore pads with this suffix', []),
                     new InputOption('host', null, InputOption::VALUE_OPTIONAL, 'The HTTP Address of your Etherpad Instance', 'http://localhost:9001'),
-                    new InputOption('dry-run', 'd', InputOption::VALUE_NONE, '')
+                    new InputOption('dry-run', 'd', InputOption::VALUE_NONE, ''),
                 )
             );
     }
@@ -66,6 +74,7 @@ class PurgePadCommand extends Command
 
         if ($padIds === false) {
             $output->writeln('<error>Could not receive all pads.</error>');
+
             return;
         }
 
@@ -77,7 +86,7 @@ class PurgePadCommand extends Command
 
         foreach ($padIds as $padId) {
             if (null !== $suffix && !preg_match($suffixRegex, $padId)) {
-                if ($output->isDebug()){
+                if ($output->isDebug()) {
                     $output->writeln(
                         sprintf('<info>DEBUG:</info> "%s" will be ignored as it doesn\'t match suffix', $padId)
                     );
@@ -85,7 +94,7 @@ class PurgePadCommand extends Command
                 continue;
             }
             if (!empty($ignoreSuffixes) && preg_match($ignoreSuffixesRegex, $padId)) {
-                if ($output->isDebug()){
+                if ($output->isDebug()) {
                     $output->writeln(
                         sprintf('<info>DEBUG:</info> "%s" will be ignored as it matches an ignore-suffix', $padId)
                     );
@@ -105,7 +114,7 @@ class PurgePadCommand extends Command
             }
 
             if ($lastEdited < $this->threshold->getTimestamp()) {
-                if ($output->isDebug()){
+                if ($output->isDebug()) {
                     $output->writeln(
                         sprintf(
                             '<info>DEBUG:</info> "%s" was last edited on %s and will purged',
@@ -137,13 +146,13 @@ class PurgePadCommand extends Command
 
     /**
      * @param $days
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     private function setThreshold($days)
     {
-        $this->threshold = new \DateTime();
-        $this->threshold->sub(new \DateInterval(
+        $this->threshold = new DateTime();
+        $this->threshold->sub(
+            new DateInterval(
                 sprintf('P%sD', $days)
             )
         );
@@ -153,6 +162,7 @@ class PurgePadCommand extends Command
      * @param $apikey
      * @param $host
      * @return array
+     * @throws Exception
      */
     private function getAllPads($apikey, $host)
     {
