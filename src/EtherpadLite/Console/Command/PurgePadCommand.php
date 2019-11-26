@@ -75,7 +75,7 @@ class PurgePadCommand extends Command
         if ($padIds === false) {
             $output->writeln('<error>Could not receive all pads.</error>');
 
-            return;
+            return 0;
         }
 
         if ($output->isVerbose()) {
@@ -142,6 +142,8 @@ class PurgePadCommand extends Command
             $output->writeln(sprintf('<info>INFO:</info> %s pad(s) deleted', $this->countPadsDeleted));
             $output->writeln(sprintf('<info>INFO:</info> %s pad(s) failed', $this->countPadsFailed));
         }
+
+        return 0;
     }
 
     /**
