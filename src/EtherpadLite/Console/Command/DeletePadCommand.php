@@ -31,7 +31,7 @@ class DeletePadCommand extends Command
             $input->getOption('apikey'),
             $input->getOption('host')
         )) {
-            $output->writeln('Pad sucessfully deleted!');
+            $output->writeln('Pad successfully deleted!');
         } else {
             $output->writeln('Pad could not deleted!');
         }

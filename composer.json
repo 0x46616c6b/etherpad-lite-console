@@ -12,11 +12,11 @@
         "psr-4": { "": "src/" }
     },
     "require": {
-        "php": "^7.2.5|^7.3",
+        "php": "^7.2.5|^7.3|^7.4",
         "ext-sqlite3": "*",
         "ext-pdo": "*",
         "symfony/console": "^5.0",
-        "0x46616c6b/etherpad-lite-client": "^0.5",
+        "0x46616c6b/etherpad-lite-client": "^0.6",
         "predis/predis": "^1.1"
     }
 }

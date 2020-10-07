@@ -2,6 +2,7 @@
 
 namespace EtherpadLite\Console\Command;
 
+use Exception;
 use Predis\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,12 +26,18 @@ class MigrationSqliteToRedisCommand extends Command
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void
+     * @throws Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $file = $input->getArgument('file');
 
         if (!is_file($file)) {
-            throw new \Exception(sprintf('File %s not found!', $file));
+            throw new Exception(sprintf('File %s not found!', $file));
         }
 
         $db = new \PDO(sprintf('sqlite:%s', $file));

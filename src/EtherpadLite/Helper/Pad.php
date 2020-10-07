@@ -11,7 +11,6 @@ class Pad
      * @param $padId
      * @param $apiKey
      * @param string $host
-     * @throws \Exception
      * @return boolean
      */
     public static function deletePad($padId, $apiKey, $host = 'http://localhost:9001')
@@ -34,7 +33,6 @@ class Pad
      * @param $apiKey
      * @param string $host
      * @return array
-     * @throws \Exception
      */
     public static function getAllPadIds($apiKey, $host = 'http://localhost:9001')
     {
@@ -43,13 +41,13 @@ class Pad
         try {
             $response = $client->listAllPads();
         } catch (\Exception $e) {
-            return false;
+            return [];
         }
 
         if ($response->getCode() == Response::CODE_OK) {
             return $response->getData()['padIDs'];
         } else {
-            return false;
+            return [];
         }
     }
 
