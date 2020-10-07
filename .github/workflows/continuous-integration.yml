@@ -1,0 +1,22 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  integration:
+    name: Integration
+    runs-on: ubuntu-latest
+    services:
+      etherpad:
+        image: systemli/etherpad-lite:1.7.5
+        ports:
+          - 9001:9001
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          tools: composer
+      - name: Install dependencies
+        run: composer install
+      - name: Run help command
+        run: bin/console --help
