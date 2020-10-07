@@ -1,0 +1,41 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  integration:
+    name: Integration
+    runs-on: ubuntu-latest
+    services:
+      etherpad:
+        image: systemli/etherpad-lite:1.7.5
+        ports:
+          - 9001:9001
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          tools: composer
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run help command
+        run: |
+          bin/console pad:delete --help
+          bin/console pad:purge --help
+          bin/console redis:import:sqlite --help
